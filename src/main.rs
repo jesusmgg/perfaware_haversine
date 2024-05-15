@@ -58,7 +58,7 @@ fn start_generate_data(selected_arguments: &Vec<&str>) -> Result<(), ()> {
         }
     };
 
-    let seed = match selected_arguments[1].parse::<usize>() {
+    let seed = match selected_arguments[1].parse::<u64>() {
         Ok(seed) => seed,
         _ => {
             print_help();
@@ -66,7 +66,7 @@ fn start_generate_data(selected_arguments: &Vec<&str>) -> Result<(), ()> {
         }
     };
 
-    let coord_count = match selected_arguments[2].parse::<usize>() {
+    let pair_count = match selected_arguments[2].parse::<usize>() {
         Ok(count) => count,
         _ => {
             print_help();
@@ -74,7 +74,7 @@ fn start_generate_data(selected_arguments: &Vec<&str>) -> Result<(), ()> {
         }
     };
 
-    generate_sample_json(distribution, seed, coord_count);
+    generate_sample_json(distribution, seed, pair_count);
 
     Ok(())
 }
