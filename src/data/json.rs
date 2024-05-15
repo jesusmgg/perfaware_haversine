@@ -76,14 +76,25 @@ pub fn generate_sample_json(distribution: PointsDistribution, random_seed: u64, 
     }
 
     mean = sum / pair_count as f64;
+    haversines.push(mean);
     println!("Expected sum (mean): {}", mean);
 
     // Write output files
     println!("Writing to 'data.json'...");
     let json_file = File::create("data.json").unwrap();
-    let mut writer = BufWriter::new(json_file);
-    serde_json::to_writer(&mut writer, &pairs_container).unwrap();
-    writer.flush().unwrap();
+    let mut json_writer = BufWriter::new(json_file);
+    serde_json::to_writer(&mut json_writer, &pairs_container).unwrap();
+    json_writer.flush().unwrap();
+
+    println!("Writing to 'haveranswer.f64'...");
+    let mut result_file = File::create("haveranswer.f64").unwrap();
+    unsafe {
+        result_file
+            .write(std::mem::transmute(haversines.as_slice()))
+            .unwrap();
+    }
+    result_file.flush().unwrap();
+
     println!("Done");
 }
 
